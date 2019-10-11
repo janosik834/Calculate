@@ -20,7 +20,7 @@ type Numbers struct {
 type Errorstruct struct {
   Error string `json:"error"`
 }
-var port string = ":8546"
+var port string = ":8989"
 var url string = "http://localhost" + port +"/calculate"
 
 func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
