@@ -9,17 +9,10 @@ import (
   "io/ioutil"
   "encoding/json"
   "github.com/julienschmidt/httprouter"
+  "github.com/janosik834/Calculate/calculateP"
 
 )
-type Numbers struct {
-  First int `json:"a"`
-  Second int `json:"b"`}
-  type NumbersRec struct {
-    First int `json:"!a"`
-    Second int `json:"!b"`}
-type Errorstruct struct {
-  Error string `json:"error"`
-}
+
 var port string = ":8989"
 var url string = "http://localhost" + port +"/calculate"
 
@@ -39,12 +32,12 @@ func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
           a, err1 := strconv.Atoi(r.FormValue("a"))
           b, err2 := strconv.Atoi(r.FormValue("b"))
           if err1 != nil {
-              fmt.Fprintf(w, "First Number is not a number and is changed to 0 \n")
+              fmt.Fprintf(w, "'First Number' is not a number and is changed to 0 \n")
           }
           if err2 != nil {
-              fmt.Fprintf(w, "Second Number is not a number and is changed to 0\n ")
+              fmt.Fprintf(w, "'Second Number' is not a number and is changed to 0\n ")
           }
-          var n Numbers = Numbers{First: a, Second: b}
+          var n calculateP.Numbers = calculateP.Numbers{First: a, Second: b}
           jsonN, _ :=  json.Marshal(n)
           req, err := http.NewRequest("POST",url, bytes.NewBuffer(jsonN))
           if err != nil {
@@ -69,16 +62,15 @@ func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func calculate(w http.ResponseWriter, r *http.Request,  _ httprouter.Params) {
-  var twoNumbers Numbers
-  var twoNumbersRec NumbersRec
-  var bad = Errorstruct{"Incorrect input"}
+  var twoNumbers calculateP.Numbers
+  var twoNumbersRec calculateP.NumbersRec
+  var bad = calculateP.Errorstruct{"Incorrect input"}
   if err := json.NewDecoder(r.Body).Decode(&twoNumbers); err != nil {
     fmt.Fprintf(w, "json.Decoder err: %v", err)
     send(w, http.StatusBadRequest, bad)
     return
   }
   if (twoNumbers.First < 0) || (twoNumbers.Second < 0) {
-
     send(w, http.StatusBadRequest, bad)
     return
   }
