@@ -9,7 +9,7 @@ import (
   "io/ioutil"
   "encoding/json"
   "github.com/julienschmidt/httprouter"
-  "github.com/janosik834/Calculate/calculateP"
+  "github.com/janosik834/Calculate/calcDocker/calculateP"
 
 )
 

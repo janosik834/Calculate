@@ -4,6 +4,6 @@ ADD . /app
 WORKDIR /app
 RUN apk add --no-cache git
 RUN go get github.com/julienschmidt/httprouter
-RUN go get github.com/janosik834/Calculate/calculateP
+RUN go get github.com/janosik834/Calculate/calcDocker/calculateP
 RUN go build -o main
 CMD ["/app/main"]
